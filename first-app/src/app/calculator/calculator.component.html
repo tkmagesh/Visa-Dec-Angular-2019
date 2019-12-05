@@ -7,6 +7,4 @@
 <input type="button" value="Subtract" (click)="onSubtractClick()">
 <input type="button" value="Multiply" (click)="onMultiplyClick()">
 <input type="button" value="Divide" (click)="onDivideClick()">
-<div class="highlight" [ngClass]="{positive : result >= 0, negative : result < 0}">
-    {{result | currency:'INR'}}
-</div>
+<app-calculator-result [data]="result"></app-calculator-result>

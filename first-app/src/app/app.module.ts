@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { CalculatorComponent } from './calculator/calculator.component';
 import { ProductsComponent } from './products/products.component';
+import { CalculatorResultComponent } from './calculator/calculatorResult.component';
 
 import {CalculatorService } from './calculator/calculator.service';
 
@@ -12,6 +13,7 @@ import {CalculatorService } from './calculator/calculator.service';
     AppComponent
     , CalculatorComponent
     , ProductsComponent
+    , CalculatorResultComponent
   ],
   imports: [
     BrowserModule
