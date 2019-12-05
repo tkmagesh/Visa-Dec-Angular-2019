@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { CalculatorComponent } from './calculator/calculator.component';
 import { ProductsComponent } from './products/products.component';
 
+import {CalculatorService } from './calculator/calculator.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -14,7 +16,7 @@ import { ProductsComponent } from './products/products.component';
   imports: [
     BrowserModule
   ],
-  providers: [],
+  providers: [ CalculatorService ],
   bootstrap: [AppComponent, CalculatorComponent, ProductsComponent]
 })
 export class AppModule { }
