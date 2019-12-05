@@ -1,0 +1,5 @@
+<label for="">Title :</label>
+<input type="text" #txtTitle>
+<input type="button" value="Change Title" (click)="onTitleChange(txtTitle.value)">
+<br>
+<span>{{ title }} app is running!</span>
