@@ -28,8 +28,9 @@ import { Bug } from './models/Bug';
             </div>
             <div class="edit">
                 <label for="">Bug Name :</label>
-                <input type="text" #txtNewBugName >
-                <input type="button" value="Add New" (click)="onAddNewClick(txtNewBugName.value)" >
+                <input type="text" (keyup) = "newBugName = $event.target.value"  >
+                <span> [ {{newBugName.length}} ] </span>
+                <input type="button" value="Add New" (click)="onAddNewClick()" >
             </div>
             <div class="list">
                 <ol>
@@ -54,6 +55,8 @@ export class BugTrackerComponent{
     sortBugBy : string = 'name';
     sortBugDescending : boolean = false;
 
+    newBugName = '';
+
     constructor(){
         this.bugs.push({ name: 'Server communication failure', isClosed: false});
         this.bugs.push({ name: 'Data integrity checks failed', isClosed: false });
@@ -61,12 +64,13 @@ export class BugTrackerComponent{
         this.bugs.push({ name: 'Application not responding', isClosed: false });
     }
 
-    onAddNewClick(bugName : string){
+    onAddNewClick(){
         const newBug = {
-            name : bugName,
+            name : this.newBugName,
             isClosed : false
         };
-        this.bugs.push(newBug);
+        //this.bugs.push(newBug);
+        this.bugs = [...this.bugs, newBug];
     }
 
     onBugNameClick(bug){
