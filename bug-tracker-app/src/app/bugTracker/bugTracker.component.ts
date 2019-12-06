@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Bug } from './models/Bug';
 import { BugOperationsService } from './services/bugOperations.service';
 
+import { HttpClient } from '@angular/common/http';
+import { BugApiService } from './services/bugApi.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
     selector : 'app-bug-tracker',
@@ -35,13 +38,11 @@ import { BugOperationsService } from './services/bugOperations.service';
         </section>
     `
 })
-export class BugTrackerComponent{
+export class BugTrackerComponent implements OnInit{
     bugs : Bug[] = [];
     sortCriteria = { attrName : 'name', isDescending : false };
 
-
-
-    constructor(private bugOperations : BugOperationsService){
+    constructor(private bugOperations : BugOperationsService, private bugApi : BugApiService){
         /* this.bugs.push({ name: 'Server communication failure', isClosed: false});
         this.bugs.push({ name: 'Data integrity checks failed', isClosed: false });
         this.bugs.push({ name: 'User actions not recognized', isClosed: false });
@@ -49,17 +50,31 @@ export class BugTrackerComponent{
 
     }
 
+    ngOnInit(){
+        this.loadBugs();
+    }
+
     onNewBugAdded(newBug : Bug){
         this.bugs = [...this.bugs, newBug];
     }
 
     onBugNameClick(bugToToggle){
-        let toggledBug = this.bugOperations.toggle(bugToToggle);
-        this.bugs = this.bugs.map(bug => bug === bugToToggle ? toggledBug : bug);
+        let toggledBugData = this.bugOperations.toggle(bugToToggle);
+        this.bugApi
+            .save(toggledBugData)
+            .subscribe(toggledBug => this.bugs = this.bugs.map(bug => bug.id === bugToToggle.id ? toggledBug : bug));
     }
 
     onRemoveClosedClick(){
-        this.bugs = this.bugs.filter(bug => !bug.isClosed);
+        const closedBugs = this.bugs.filter(bug => bug.isClosed);
+        const removeClosedBugObservables  = closedBugs.map(closedBug => this.bugApi.delete(closedBug));
+        forkJoin(removeClosedBugObservables)
+            .subscribe(() => this.loadBugs());
+    }
+    loadBugs(): void {
+        this.bugApi
+            .getAll()
+            .subscribe(response => this.bugs = response);
     }
 
     
