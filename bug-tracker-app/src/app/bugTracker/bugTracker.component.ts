@@ -36,8 +36,10 @@ import { Bug } from './models/Bug';
                     <li *ngFor="let bug of bugs" >
                         <span 
                             class="bugname"
+                            (click)="onBugNameClick(bug)"
+                            [ngClass]="{closed : bug.isClosed}"
                         >
-                            {{bug}}
+                            {{bug.name}}
                         </span>
                         <div class="datetime">[crearted at]</div>
                     </li>
@@ -56,5 +58,9 @@ export class BugTrackerComponent{
             isClosed : false
         };
         this.bugs.push(newBug);
+    }
+
+    onBugNameClick(bug){
+        bug.isClosed = !bug.isClosed;
     }
 }
