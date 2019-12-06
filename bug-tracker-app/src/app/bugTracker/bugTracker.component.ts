@@ -5,11 +5,7 @@ import { Bug } from './models/Bug';
     selector : 'app-bug-tracker',
     template : `
         <section >
-            <div class="stats">
-                <span class="closed">{{getClosedCount()}}</span>
-                <span> / </span>
-                <span>{{bugs.length}}</span>
-            </div>
+            <app-bug-stats [data]="bugs"></app-bug-stats>
             <div class="sort">
                 <label for="">Order By :</label>
                 <select (change)="sortBugBy = $event.target.value" >
@@ -73,15 +69,14 @@ export class BugTrackerComponent{
         this.bugs = [...this.bugs, newBug];
     }
 
-    onBugNameClick(bug){
-        bug.isClosed = !bug.isClosed;
+    onBugNameClick(bugToToggle){
+        let toggledBug = { ...bugToToggle, isClosed : !bugToToggle.isClosed };
+        this.bugs = this.bugs.map(bug => bug === bugToToggle ? toggledBug : bug);
     }
 
     onRemoveClosedClick(){
         this.bugs = this.bugs.filter(bug => !bug.isClosed);
     }
 
-    getClosedCount(){
-        return this.bugs.reduce((result, bug) => bug.isClosed ? ++result : result, 0);
-    }
+    
 }
