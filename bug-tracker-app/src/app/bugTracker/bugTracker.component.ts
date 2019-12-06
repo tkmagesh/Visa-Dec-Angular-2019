@@ -6,7 +6,7 @@ import { Bug } from './models/Bug';
     template : `
         <section >
             <div class="stats">
-                <span class="closed">1</span>
+                <span class="closed">{{getClosedCount()}}</span>
                 <span> / </span>
                 <span>{{bugs.length}}</span>
             </div>
@@ -39,12 +39,12 @@ import { Bug } from './models/Bug';
                             (click)="onBugNameClick(bug)"
                             [ngClass]="{closed : bug.isClosed}"
                         >
-                            {{bug.name}}
+                            {{bug.name | trimText}}
                         </span>
                         <div class="datetime">[crearted at]</div>
                     </li>
                 </ol>
-                <input type="button" value="Remove Closed">
+                <input type="button" value="Remove Closed" (click)="onRemoveClosedClick()">
             </div>
         </section>
     `
@@ -62,5 +62,13 @@ export class BugTrackerComponent{
 
     onBugNameClick(bug){
         bug.isClosed = !bug.isClosed;
+    }
+
+    onRemoveClosedClick(){
+        this.bugs = this.bugs.filter(bug => !bug.isClosed);
+    }
+
+    getClosedCount(){
+        return this.bugs.reduce((result, bug) => bug.isClosed ? ++result : result, 0);
     }
 }
