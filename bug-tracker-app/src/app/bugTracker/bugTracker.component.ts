@@ -8,15 +8,7 @@ import { BugOperationsService } from './services/bugOperations.service';
     template : `
         <section >
             <app-bug-stats [data]="bugs"></app-bug-stats>
-            <div class="sort">
-                <label for="">Order By :</label>
-                <select (change)="sortBugBy = $event.target.value" >
-                    <option value="name">Name</option>
-                    <option value="isClosed">Status</option>
-                </select>
-                <label for="">Descending ?: </label>
-                <input type="checkbox" (change)="sortBugDescending = $event.target.checked" >
-            </div>
+           
             <div class="search">
                 <label for="">Search :</label>
                 <input type="text" >
@@ -24,10 +16,11 @@ import { BugOperationsService } from './services/bugOperations.service';
                 <input type="checkbox" >
                 <input type="button" value="Clear" >
             </div>
+            <app-bug-sort (criteriaChange)="sortCriteria = $event"></app-bug-sort>
             <app-bug-edit (bugAdded)="onNewBugAdded($event)"></app-bug-edit>
             <div class="list">
                 <ol>
-                    <li *ngFor="let bug of ( bugs | sort:sortBugBy:sortBugDescending )" >
+                    <li *ngFor="let bug of ( bugs | sort:sortCriteria.attrName:sortCriteria.isDescending )" >
                         <span 
                             class="bugname"
                             (click)="onBugNameClick(bug)"
@@ -45,8 +38,9 @@ import { BugOperationsService } from './services/bugOperations.service';
 })
 export class BugTrackerComponent{
     bugs : Bug[] = [];
-    sortBugBy : string = 'name';
-    sortBugDescending : boolean = false;
+    sortCriteria = { attrName : 'name', isDescending : false };
+
+
 
     constructor(private bugOperations : BugOperationsService){
         /* this.bugs.push({ name: 'Server communication failure', isClosed: false});

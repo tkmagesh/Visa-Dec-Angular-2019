@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { BugTrackerComponent } from './bugTracker/bugTracker.component';
 import { BugStatsComponent } from './bugTracker/views/bugStats.component';
 import { BugEditComponent } from './bugTracker/views/bugEdit.component';
+import { BugSortComponent } from './bugTracker/views/bugSort.component';
 
 import { TrimTextPipe } from './bugTracker/pipes/trimText.pipe';
 import { SortPipe } from './bugTracker/pipes/sort.pipe';
@@ -18,6 +19,7 @@ import { BugOperationsService } from './bugTracker/services/bugOperations.servic
     BugTrackerComponent,
     BugStatsComponent,
     BugEditComponent,
+    BugSortComponent,
     TrimTextPipe,
     SortPipe,
     ClosedCountPipe
