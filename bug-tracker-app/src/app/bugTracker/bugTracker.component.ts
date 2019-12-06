@@ -39,7 +39,7 @@ import { Bug } from './models/Bug';
                             (click)="onBugNameClick(bug)"
                             [ngClass]="{closed : bug.isClosed}"
                         >
-                            {{bug.name | trimText}}
+                            {{bug.name | trimText:40}}
                         </span>
                         <div class="datetime">[crearted at]</div>
                     </li>
