@@ -12,12 +12,12 @@ import { Bug } from './models/Bug';
             </div>
             <div class="sort">
                 <label for="">Order By :</label>
-                <select >
+                <select (change)="sortBugBy = $event.target.value" >
                     <option value="name">Name</option>
                     <option value="isClosed">Status</option>
                 </select>
                 <label for="">Descending ?: </label>
-                <input type="checkbox" >
+                <input type="checkbox" (change)="sortBugDescending = $event.target.checked" >
             </div>
             <div class="search">
                 <label for="">Search :</label>
@@ -33,7 +33,7 @@ import { Bug } from './models/Bug';
             </div>
             <div class="list">
                 <ol>
-                    <li *ngFor="let bug of bugs" >
+                    <li *ngFor="let bug of ( bugs | sort:sortBugBy:sortBugDescending )" >
                         <span 
                             class="bugname"
                             (click)="onBugNameClick(bug)"
@@ -51,6 +51,15 @@ import { Bug } from './models/Bug';
 })
 export class BugTrackerComponent{
     bugs : Bug[] = [];
+    sortBugBy : string = 'name';
+    sortBugDescending : boolean = false;
+
+    constructor(){
+        this.bugs.push({ name: 'Server communication failure', isClosed: false});
+        this.bugs.push({ name: 'Data integrity checks failed', isClosed: false });
+        this.bugs.push({ name: 'User actions not recognized', isClosed: false });
+        this.bugs.push({ name: 'Application not responding', isClosed: false });
+    }
 
     onAddNewClick(bugName : string){
         const newBug = {
