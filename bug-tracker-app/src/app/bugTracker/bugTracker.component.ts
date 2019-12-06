@@ -8,7 +8,6 @@ import { BugOperationsService } from './services/bugOperations.service';
     template : `
         <section >
             <app-bug-stats [data]="bugs"></app-bug-stats>
-           
             <div class="search">
                 <label for="">Search :</label>
                 <input type="text" >
