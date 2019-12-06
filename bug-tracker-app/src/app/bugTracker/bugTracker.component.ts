@@ -24,12 +24,7 @@ import { BugOperationsService } from './services/bugOperations.service';
                 <input type="checkbox" >
                 <input type="button" value="Clear" >
             </div>
-            <div class="edit">
-                <label for="">Bug Name :</label>
-                <input type="text" (keyup) = "newBugName = $event.target.value"  >
-                <span> [ {{newBugName.length}} ] </span>
-                <input type="button" value="Add New" (click)="onAddNewClick()" >
-            </div>
+            <app-bug-edit (bugAdded)="onNewBugAdded($event)"></app-bug-edit>
             <div class="list">
                 <ol>
                     <li *ngFor="let bug of ( bugs | sort:sortBugBy:sortBugDescending )" >
@@ -52,8 +47,6 @@ export class BugTrackerComponent{
     bugs : Bug[] = [];
     sortBugBy : string = 'name';
     sortBugDescending : boolean = false;
-    newBugName = '';
-    
 
     constructor(private bugOperations : BugOperationsService){
         /* this.bugs.push({ name: 'Server communication failure', isClosed: false});
@@ -63,9 +56,7 @@ export class BugTrackerComponent{
 
     }
 
-    onAddNewClick(){
-        const newBug = this.bugOperations.createNew(this.newBugName);
-        //this.bugs.push(newBug);
+    onNewBugAdded(newBug : Bug){
         this.bugs = [...this.bugs, newBug];
     }
 
