@@ -1,0 +1,121 @@
+/src/styles.css
+
+<style>
+        body{
+            margin-left: 50px;
+        }
+        div{
+            margin-bottom: 10px;
+        }
+        .closed{
+            color : red;
+            text-decoration: line-through;
+            font-style: italic;
+            font-weight: bold;
+        }
+        .stats, .bugname{
+            font-size: 18pt;
+        }
+        .bugname{
+            cursor: pointer;
+        }
+        li{
+            margin-bottom: 10px;
+            border : 2px solid gray;
+            background-color: #e7e7e7;
+            padding : 10px;
+            border-radius: 5px;
+        }
+        ol{
+            width : 450px;
+            list-style: none;
+            -webkit-padding-start : 0px;
+        }
+        .datetime{
+            font-style: italic;
+        }
+    </style>
+    <script type="text/usecases">
+        //bug as a string
+        1. Add new bugs
+        2. List the added bugs
+        3. Toggle the 'closed' status of any bug
+        4. Remove closed bugs
+        5. Display stats ( # of closed bugs / total # of bugs )
+        6. Filter the bugs
+        7. Sort the bugs
+        8. Improvise the bug Display
+        9. Persist the bugs in the localStorage
+                    window.localStorage
+                    ===================
+                    * key/value store
+                    * key has to be unique
+                        (introduce an 'id' attribute to the bug to have unique values (1...infinity))
+                    * key & value must be strings
+                        (use JSON.stringify & JSON.parse for serialization and deserialization)
+                    * ~ 10 MB per origin
+                    * Same Origin Policy
+                    * APIs
+                    ------
+                        - setItem(key, value)
+                        - getItem(key) => value
+                        - removeItem(key)
+                        - clear()
+                        - key(index) => key at index
+                        - length
+
+        11. Display 'createdAt' for each bug
+        10. Persist the bug in the server
+    </script>
+   
+src/app/bugTracker
+    bugTracker.component.ts
+    component name -> BugTrackerComponent
+
+    <h1>Bug Tracker</h1>
+    <hr>
+    <section >
+        <div class="stats">
+            <span class="closed">1</span>
+            <span> / </span>
+            <span>2</span>
+        </div>
+        <div class="sort">
+            <label for="">Order By :</label>
+            <select >
+                <option value="name">Name</option>
+                <option value="isClosed">Status</option>
+            </select>
+            <label for="">Descending ?: </label>
+            <input type="checkbox" >
+        </div>
+        <div class="search">
+            <label for="">Search :</label>
+            <input type="text" >
+            <label for="">Closed ? :</label>
+            <input type="checkbox" >
+            <input type="button" value="Clear" >
+        </div>
+        <div class="edit">
+            <label for="">Bug Name :</label>
+            <input type="text" >
+            <input type="button" value="Add New" >
+        </div>
+        <div class="list">
+            <ol>
+                <li >
+                    <span 
+                        class="bugname"
+                    >
+                        [Bug Name]
+                    </span>
+                    <div class="datetime">[crearted at]</div>
+                </li>
+                 <li>
+                    <span class="bugname closed">[This is bug - 2]</span>
+                    <div class="datetime">[Created At]</div>
+                </li>
+            </ol>
+            <input type="button" value="Remove Closed">
+        </div>
+    </section>
